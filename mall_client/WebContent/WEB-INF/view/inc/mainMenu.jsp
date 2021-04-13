@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "mall.client.vo.*" %>
+<%
+	if(session.getAttribute("loginClient") == null) {
+%>
+		<!-- 로그아웃일때 -->
+		<form action = "<%=request.getContextPath()%>/LoginController" method = "post">
+			ID : <input type = "text" name = "clientMail">
+			PW : <input type = "password" name = "clientPw">
+			<button type = "submit">로그인</button>
+		</form>
+<%
+	}else {
+%>
+		<!-- 로그인일때 -->
+		<div>
+			<div>
+				<%=((Client)(session.getAttribute("loginClient"))).getClientMail()%>님 반갑습니다.
+			</div>
+			<ul>
+				<li><a href = "<%=request.getContextPath()%>/LogoutController">로그아웃</a></li>
+			</ul>
+		</div>
+<%
+	}
+%>

@@ -8,6 +8,7 @@
 <title>index</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include>
 	<!-- 메뉴1 -->
 	<!-- 메뉴2 -->
 	<h1>index</h1>
