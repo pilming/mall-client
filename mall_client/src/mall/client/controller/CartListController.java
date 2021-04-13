@@ -25,16 +25,20 @@ public class CartListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
+		//세션으로 받은 아이디 디버깅
 		System.out.println(((Client)(session.getAttribute("loginClient"))).getClientMail() + "<------CartListController에서 loginClient");
 		//dao호출
 		this.cartDao = new CartDao();
+		//매개변수로 넘겨줄 현재 로그인한 clientmail
 		String clientMail =  ((Client)(session.getAttribute("loginClient"))).getClientMail();
+		
+		//받아온 리스트 디버깅
 		System.out.println(clientMail + "<------CartListController에서 clientMail");
 		List<Map<String, Object>> cartList = this.cartDao.selectCartList(clientMail); //카드리스트를 불러옴	
+		
 		//forward
-
+		//넘겨줄 리스트 저장
 		request.setAttribute("cartList", cartList);
-		System.out.println(cartList + "<------CartListController에서 returnList");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/cart/cartList.jsp");
 		rd.forward(request, response);
 	}

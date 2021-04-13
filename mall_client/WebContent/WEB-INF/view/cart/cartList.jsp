@@ -12,7 +12,9 @@
 	<jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include>
 	<!-- cartList -->
 <%
+	//카트 리스트 받아오기
 	List<Map<String, Object>> cartList = (List<Map<String, Object>>)(request.getAttribute("cartList"));
+	//받아오 리스트 디버깅
 	System.out.println(cartList + "<------cartList.jsp에서 cartList");
 %>
 	<table border = "1">
@@ -26,6 +28,7 @@
 		</thead>
 		<tbody>	
 	<%
+		//장바구니리스트 출력
 		for(Map<String, Object> map : cartList) {
 	%>
 			<tr>
