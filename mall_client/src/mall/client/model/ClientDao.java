@@ -6,6 +6,30 @@ import mall.client.vo.*;
 
 public class ClientDao {
 	private DBUtil dbUtil;
+	
+	//회원가입
+	public int insertClient(Client client) {
+		int rowCnt = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(conn, stmt, null);
+		}
+		
+		return rowCnt;
+	}
+	//메일 중복검사
+	public String selectClientMail(String clientMail) {
+		String returnClientMail = null;
+		
+		
+		return returnClientMail;
+	}
 	public Client login(Client client) {
 		this.dbUtil = new DBUtil();
 		Client returnClient = null;

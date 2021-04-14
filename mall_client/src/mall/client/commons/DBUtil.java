@@ -17,22 +17,31 @@ public class DBUtil {
 	}
 	//2. DB자원(connection , statement, resultSet) 해제
 	public void close(Connection conn, PreparedStatement stmt, ResultSet rs) {
-		try {
-			rs.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(rs != null) {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			
 		}
-		try {
-			stmt.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(conn != null) {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			conn.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if(stmt != null) {
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
