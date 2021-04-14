@@ -16,22 +16,29 @@
 	//받아오 리스트 디버깅
 	System.out.println(clientOne + "<------clientOne.jsp에서 clientOne");
 %>
-	<table border = "1">
-		<thead>
-			<tr>
-				<td>아이디</td>
-				<td>비밀번호</td>
-				<td>가입일자</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><%=clientOne.getClientMail() %></td>
-				<td><a href = "">비밀번호 변경</a></td>
-				<td><%=clientOne.getClientDate() %></td>
-			</tr>
-		</tbody>
-	</table>
+	<form action = "<%=request.getContextPath()%>/ClientOneController" method = "post">
+		<input type = "hidden" value = "<%=clientOne.getClientMail()%>" name = "clientMail" >
+		<table border = "1">
+			<thead>
+				<tr>
+					<td>아이디</td>
+					<td>현재비밀번호</td>
+					<td>새로운비밀번호</td>
+					<td>가입일자</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><%=clientOne.getClientMail() %></td>
+					<td><input type = "password" placeholder="현재비밀번호를 입력하세요" name = "currentPw"></td>
+					<td><input type = "password" placeholder="새로운 비밀번호를 입력하세요" name = "newPw"></td>
+					<td><%=clientOne.getClientDate() %></td>
+				</tr>
+			</tbody>
+		</table>
+		<button type = "submit">비밀번호 변경</button>
+	</form>
+	
 
 </body>
 </html>
