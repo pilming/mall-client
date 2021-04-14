@@ -7,21 +7,55 @@ import mall.client.vo.*;
 public class ClientDao {
 	private DBUtil dbUtil;
 	
-	//È¸¿ø°¡ÀÔ
+	public Client selectClientOne(String clientMail) {
+		
+		//ë³´ì—¬ì¤„ í´ë¼ì´ì–¸íŠ¸ ì •ë³´ë¥¼ ë‹´ì„ ê°ì²´ìƒì„±
+		Client returnClient = new Client();
+		
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			//sql
+			String sql = "SELECT client_mail, client_pw, client_date FROM client WHERE client_mail = ?";
+			//dbì²˜ë¦¬
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			//ë””ë²„ê¹…
+			System.out.println(stmt+" <-- ClientDaoì—ì„œ selectClientOne()ì˜ stmt");
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				returnClient.setClientMail(rs.getString("client_mail"));
+				returnClient.setClientPw(rs.getString("client_pw"));
+				returnClient.setClientDate(rs.getString("client_date"));
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(conn, stmt, rs);
+		}
+		
+		return returnClient;
+
+	}
+	//íšŒì›Œê°€ì…
 	public int insertClient(Client client) {
 		this.dbUtil = new DBUtil();
 		int rowCnt = 0;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			// 1.
+			// sql
 			String sql = "INSERT INTO client(client_mail, client_pw, client_date) VALUES(?,PASSWORD(?),now())";
-			// 2.
+			// dbì²˜ë¦¬
 			conn = this.dbUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, client.getClientMail());
 			stmt.setString(2, client.getClientPw());
-			System.out.println(stmt+" <-- ClientDao¿¡¼­ insertClient()ÀÇ stmt");
+			System.out.println(stmt+" <-- ClientDaoï¿½ï¿½ï¿½ï¿½ insertClient()ï¿½ï¿½ stmt");
 			rowCnt = stmt.executeUpdate();
 
 		} catch (Exception e){
@@ -32,18 +66,18 @@ public class ClientDao {
 		
 		return rowCnt;
 	}
-	//¸ŞÀÏ Áßº¹°Ë»ç
+	//ì¤‘ë³µì²´í¬
 	public String selectClientMail(String clientMail) {
 		this.dbUtil = new DBUtil();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		//¸®ÅÏÇÒ ¸ŞÀÏ
+		//ë¦¬í„´í•  ë©”ì¼
 		String returnClientMail = null;
 		
-		// DB Ã³¸®
+		// DBì²˜ë¦¬
 		try {
-			//db¿¬°á
+			//dbì ‘ê·¼
 			conn = this.dbUtil.getConnection();
 			
 			// sql
@@ -52,11 +86,11 @@ public class ClientDao {
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, clientMail);
-			System.out.println(stmt+" <-- ClientDao¿¡¼­ selectClientMail()ÀÇ stmt");
+			System.out.println(stmt+" <-- ClientDaoï¿½ï¿½ï¿½ï¿½ selectClientMail()ï¿½ï¿½ stmt");
 			rs=stmt.executeQuery();
 			if(rs.next()) {
 				returnClientMail = rs.getString("client_mail");
-				System.out.println(returnClientMail+" <-- ClientDao¿¡¼­ selectClientMail()ÀÇ returnClientMail");
+				System.out.println(returnClientMail+" <-- ClientDaoï¿½ï¿½ï¿½ï¿½ selectClientMail()ï¿½ï¿½ returnClientMail");
 			}	
 		} catch (Exception e){
 			e.printStackTrace();

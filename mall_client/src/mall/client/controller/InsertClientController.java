@@ -15,34 +15,34 @@ import mall.client.vo.Client;
 @WebServlet("/InsertClientController")
 public class InsertClientController extends HttpServlet {
 	private ClientDao clientDao;
-	//Æû c->v
+	//í¼ c->v
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		//¸¸¾à ·Î±×ÀÎ ÇÑ »óÅÂ¶ó¸é ´Ù½Ã ÀÎµ¦½º·Î º¸³¿
+		//ë§Œì•½ ë¡œê·¸ì¸ í•œ ìƒíƒœë¼ë©´ ë‹¤ì‹œ ì¸ë±ìŠ¤ë¡œ ë³´ëƒ„
 		if(session.getAttribute("loginClient") != null) {
 			response.sendRedirect("/IndexController");
 		}
 		
-		//·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ¶ó¸é È¸¿ø°¡ÀÔ view·Î º¸³½´Ù.
+		//ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ìƒíƒœë¼ë©´ íšŒì›ê°€ì… viewë¡œ ë³´ë‚¸ë‹¤.
 		request.getRequestDispatcher("/WEB-INF/view/client/insertClient.jsp").forward(request, response);
 	}
-	//action c-> m-> redirect È¸¿ø°¡ÀÔview¿¡¼­ ¹ŞÀº µ¥ÀÌÅÍ¸¦ Ã³¸®
+	//action c-> m-> redirect íšŒì›ê°€ì…viewì—ì„œ ë°›ì€ ë°ì´í„°ë¥¼ ì²˜ë¦¬
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.clientDao = new ClientDao();
 		
-		//formÀ¸·Î ¹ŞÀº Á¤º¸¸¦ client¸Å°³º¯¼ö·Î »ç¿ëÇÏ±â À§ÇØ¼­ »õ·Î¿î °´Ã¼ »ı¼º ÈÄ µ¥ÀÌ´õ¸¦ ÀúÀåÇÑ´Ù.
+		//formìœ¼ë¡œ ë°›ì€ ì •ë³´ë¥¼ clientë§¤ê°œë³€ìˆ˜ë¡œ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ ìƒˆë¡œìš´ ê°ì²´ ìƒì„± í›„ ë°ì´ë”ë¥¼ ì €ì¥í•œë‹¤.
 		Client client = new Client();
 		client.setClientMail(request.getParameter("clientMail"));
 		client.setClientPw(request.getParameter("clientPw"));
 		
-		//È¸¿øÀ¸·Î µî·Ï Àü ¿ì¼±ÀûÀ¸·Î ¸ŞÀÏÀÌ Áßº¹ÀÎÁö È®ÀÎÇÑ´Ù. Áßº¹ÀÏ °æ¿ì ´Ù½Ã insertClient.jsp·Î º¹±Í
+		//íšŒì›ìœ¼ë¡œ ë“±ë¡ ì „ ìš°ì„ ì ìœ¼ë¡œ ë©”ì¼ì´ ì¤‘ë³µì¸ì§€ í™•ì¸í•œë‹¤. ì¤‘ë³µì¼ ê²½ìš° ë‹¤ì‹œ insertClient.jspë¡œ ë³µê·€
 		String checkMail = this.clientDao.selectClientMail(client.getClientMail());
 		System.out.println(checkMail);
 		if(checkMail != null) {
 			request.getRequestDispatcher("/WEB-INF/view/client/insertClient.jsp").forward(request, response);
 			return;
 		}
-		//Áßº¹µÈ ¾ÆÀÌµğ°¡ ¾Æ´Ï¶ó¸é È¸¿ø°¡ÀÔ ÁøÇà (µ¥ÀÌÅÍº£ÀÌ½º¿¡ Ãß°¡)
+		//ì¤‘ë³µëœ ì•„ì´ë””ê°€ ì•„ë‹ˆë¼ë©´ íšŒì›ê°€ì… ì§„í–‰ (ë°ì´í„°ë² ì´ìŠ¤ì— ì¶”ê°€)
 		this.clientDao.insertClient(client);
 		
 		response.sendRedirect(request.getContextPath()+"/IndexController");
