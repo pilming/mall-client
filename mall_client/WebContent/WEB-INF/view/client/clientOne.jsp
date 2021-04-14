@@ -38,6 +38,7 @@
 		</table>
 		<button type = "submit">비밀번호 변경</button>
 	</form>
+	<a href= "">회원탈퇴</a>
 	
 
 </body>
