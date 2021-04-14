@@ -11,7 +11,7 @@
 		</form>
 		<ul>
 			<!-- InsertClientController -> /view/insertClient.jsp -->
-			<li><a href = "<%=request.getContextPath()%>"/InsertClientController>회원가입</li>
+			<li><a href = "<%=request.getContextPath()%>/InsertClientController">회원가입</a></li>
 		</ul>
 <%
 	}else {
