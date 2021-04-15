@@ -37,7 +37,7 @@ public class CartListController extends HttpServlet {
 		List<Map<String, Object>> cartList = this.cartDao.selectCartList(clientMail); //카드리스트를 불러옴	
 		
 		//forward
-		//넘겨줄 리스트 저장
+		//request객체에 넘겨줄 리스트 저장
 		request.setAttribute("cartList", cartList);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/cart/cartList.jsp");
 		rd.forward(request, response);

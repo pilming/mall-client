@@ -33,7 +33,7 @@ public class ClientOneController extends HttpServlet {
 		//보여출 클라이언트 정보가 담겨있는 객체
 		Client clientOne = this.clientDao.selectClientOne(clientMail);
 		System.out.println(clientOne + "<------ClientOneController에서 clientOne");
-		//세션에 저장
+		//request객체에 클라이언트 정보 저장
 		request.setAttribute("clientOne", clientOne);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/client/clientOne.jsp");
 		rd.forward(request, response);

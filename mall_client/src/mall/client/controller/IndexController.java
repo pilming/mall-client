@@ -30,7 +30,7 @@ public class IndexController extends HttpServlet {
 		this.ebookDao = new EbookDao();
 		List<Ebook> ebookList = this.ebookDao.selectEbookListByPage(beginRow, rowPerPage);
 		
-		// View forward
+		// request객체에 리스트 저장 후 View forward
 		request.setAttribute("ebookList", ebookList);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/index.jsp");
 		rd.forward(request, response);

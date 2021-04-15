@@ -16,6 +16,7 @@ public class LogoutController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		//세션초기화
 		session.invalidate();
 		response.sendRedirect(request.getContextPath()+"/IndexController");
 	}

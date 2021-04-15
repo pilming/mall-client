@@ -20,7 +20,8 @@ public class InsertClientController extends HttpServlet {
 		HttpSession session = request.getSession();
 		//만약 로그인 한 상태라면 다시 인덱스로 보냄
 		if(session.getAttribute("loginClient") != null) {
-			response.sendRedirect("/IndexController");
+			response.sendRedirect(request.getContextPath()+"/IndexController");
+			return;
 		}
 		
 		//로그인하지 않은 상태라면 회원가입 view로 보낸다.
@@ -46,6 +47,7 @@ public class InsertClientController extends HttpServlet {
 		this.clientDao.insertClient(client);
 		
 		response.sendRedirect(request.getContextPath()+"/IndexController");
+		return;
 	}
 
 }

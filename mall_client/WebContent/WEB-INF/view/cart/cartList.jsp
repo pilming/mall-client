@@ -24,6 +24,8 @@
 				<th>ebook_no</th>
 				<th>ebook_title</th>
 				<th>cart_date</th>
+				<th>삭제</th>
+				<th>주문</th>
 			</tr>
 		</thead>
 		<tbody>	
@@ -36,6 +38,8 @@
 				<td><%=map.get("ebookNo") %></td>
 				<td><%=map.get("ebookTitle") %></td>
 				<td><%=map.get("cartDate") %></td>
+				<td><a href = " ">삭제</a></td>
+				<td><a href = " ">주문</a></td>
 			</tr>
 	<%
 		}

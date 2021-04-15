@@ -34,9 +34,11 @@ public class LoginController extends HttpServlet {
 		
 		this.clientDao = new ClientDao();
 		Client returnClient = this.clientDao.login(client);
+		//로그인 성공하면 세션에 로그인 정보 기록
 		if(returnClient != null) {
 			session.setAttribute("loginClient", returnClient);
 		}
+		//여기선 넘겨줄 정보가 없기때문에 sendRedirect로 하던 RequestDispatcher로하던 상관없지만 굳이 RequestDispatcher로 할필요없으니.
 		response.sendRedirect(request.getContextPath()+"/IndexController");
 		
 	}
