@@ -10,31 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mall.client.model.CartDao;
-import mall.client.vo.*;
+import mall.client.model.ClientDao;
+import mall.client.vo.Client;
 
-
-@WebServlet("/InsertCartController")
-public class InsertCartController extends HttpServlet {
+@WebServlet("/DeleteClientController")
+public class DeleteClientController extends HttpServlet {
+	private ClientDao clientDao;
 	private CartDao cartDao;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//로그인 아니면 redirect
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginClient") == null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
-		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
+		//세션에서 메일주소 가져오기
+		String clientMail = ((Client)(session.getAttribute("loginClient"))).getClientMail();
+		
+		
+		//장바구니 비운 후 고객 삭제실행
 		this.cartDao = new CartDao();
-		Cart cart = new Cart();
-		cart.setEbookNo(ebookNo);
-		cart.setClientMail(((Client)session.getAttribute("loginClient")).getClientMail());
-		//카트안에 동일한ebook이 있는지 확인
-		if(this.cartDao.selectClientMail(cart)) {
-			this.cartDao.insertCart(cart);
-		} else {
-			System.out.println("이미 장바구니에 존재합니다.");
-		}
-	
-		response.sendRedirect(request.getContextPath()+"/CartListController");
+		this.cartDao.deleteCartByClient(clientMail);
+		this.clientDao =new ClientDao(); 
+		this.clientDao.deleteClient(clientMail);
+		
+		//세션 초기화
+		session.invalidate();
+		
+		//완료후 다시 index페이지로
+		response.sendRedirect(request.getContextPath()+"/IndexController");
+		
 	}
 
 }

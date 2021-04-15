@@ -1,10 +1,6 @@
 package mall.client.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mall.client.model.CartDao;
-import mall.client.vo.*;
+import mall.client.vo.Client;
 
-@WebServlet("/CartListController")
-public class CartListController extends HttpServlet {
+@WebServlet("/DeleteCartController")
+public class DeleteCartController extends HttpServlet {
 	private CartDao cartDao; 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//로그인 아니면 redirect
@@ -27,21 +23,20 @@ public class CartListController extends HttpServlet {
 		}
 		//세션으로 받은 아이디 디버깅
 		System.out.println(((Client)(session.getAttribute("loginClient"))).getClientMail() + "<------CartListController에서 loginClient");
-		//dao호출
-		this.cartDao = new CartDao();
-		//매개변수로 넘겨줄 현재 로그인한 clientmail
+		//아이디 저장
 		String clientMail =  ((Client)(session.getAttribute("loginClient"))).getClientMail();
 		
-		//clientmail 디버깅
-		System.out.println(clientMail + "<------CartListController에서 clientMail");
+		//받아온 데이터
+		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
 		
-		//카트리스트를 불러옴	
-		List<Map<String, Object>> cartList = this.cartDao.selectCartList(clientMail); 
+		//dao호출
+		this.cartDao = new CartDao();
 		
-		//forward
-		//request객체에 넘겨줄 리스트 저장
-		request.setAttribute("cartList", cartList);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/cart/cartList.jsp");
-		rd.forward(request, response);
+		//삭제실행
+		this.cartDao.deleteCart(clientMail, ebookNo);
+		
+		//리다이렉트
+		response.sendRedirect(request.getContextPath()+"/CartListController");
+		
 	}
 }

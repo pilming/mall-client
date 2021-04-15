@@ -7,7 +7,62 @@ import mall.client.vo.*;
 
 public class CartDao {
 	private DBUtil dbUtil;
+	//장바구니 삭제
+	public void deleteCart(String clientMail, int ebookNo) {
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			// sql
+			String sql = "DELETE FROM cart WHERE client_mail = ?  AND ebook_no = ?";
+			// db처리
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			stmt.setInt(2, ebookNo);
+			
+			//디버깅
+			System.out.println(stmt+" <-- CartDao에서 deleteCart()의 stmt");
+			
+			//삭제 실행
+			stmt.executeUpdate();
+
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(conn, stmt, null);
+		}
+		
+	}
 	
+	//회원탈퇴 전 장바구니 비우기
+	public void deleteCartByClient (String clientMail) {
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			// sql
+			String sql = "DELETE FROM cart WHERE client_mail = ?";
+			// db처리
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			
+			//디버깅
+			System.out.println(stmt+" <-- CartDao에서 deleteCartByClient()의 stmt");
+			
+			//삭제 실행
+			stmt.executeUpdate();
+
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(conn, stmt, null);
+		}
+	}
+	//회원 장바구니 가져오기
 	public boolean selectClientMail(Cart cart) {
 		boolean flag = true; //중복없음
 		this.dbUtil = new DBUtil();
@@ -35,7 +90,7 @@ public class CartDao {
 		
 		return flag;
 	}
-	
+	//장바구님 추가
 	public int insertCart(Cart cart) {
 		int rowCnt = 0;
 		

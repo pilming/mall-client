@@ -6,6 +6,32 @@ import mall.client.vo.*;
 
 public class ClientDao {
 	private DBUtil dbUtil;
+	public void deleteClient(String clientMail) {
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			// sql
+			String sql = "DELETE FROM client WHERE client_mail = ?";
+			// db처리
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			
+			//디버깅
+			System.out.println(stmt+" <-- ClientDao에서 deleteClient()의 stmt");
+			
+			//삭제 실행
+			stmt.executeUpdate();
+
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(conn, stmt, null);
+		}
+	}
+	
 	
 	//비밀변호 변경
 	public void updateClientPw(Client client, String newPw) {

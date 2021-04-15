@@ -38,7 +38,9 @@
 				<td><%=map.get("ebookNo") %></td>
 				<td><%=map.get("ebookTitle") %></td>
 				<td><%=map.get("cartDate") %></td>
-				<td><a href = " ">삭제</a></td>
+				<!-- DeleteCartController - CartDao.deleteCart() - redirect:/ CartListController -->
+				<td><a href = "<%=request.getContextPath()%>/DeleteCartController?ebookNo=<%=map.get("ebookNo")%>"><button type = "button">삭제</button></a></td>
+				<!-- InsertOrdersController - insertOrders(), deleteCart(): ISSUE 트랜잭션처리 - redirect:/OrdersListController 주문리스트 -->
 				<td><a href = " ">주문</a></td>
 			</tr>
 	<%
