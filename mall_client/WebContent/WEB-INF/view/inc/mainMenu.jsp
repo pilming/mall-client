@@ -24,6 +24,8 @@
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/IndexController">홈으로</a></li>
 				<li><a href = "<%=request.getContextPath()%>/CartListController">장바구니</a></li>
+				<!-- OrdersListController - OrdersDao,selectOrdersListByClient() - OrdersList.jsp -->
+				<li><a href = "<%=request.getContextPath()%>/OrdersListController">주문리스트</a></li>
 				<!-- ClientOneController -> ClientDao.selectclientOne() -> /view/client/clientOne.jsp-->
 				<li><a href = "<%=request.getContextPath()%>/ClientOneController">회원정보</a></li>
 				<li><a href = "<%=request.getContextPath()%>/LogoutController">로그아웃</a></li>
