@@ -31,7 +31,7 @@ public class InsertOrdersController extends HttpServlet {
 		//request
 		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
 		Client client = (Client)session.getAttribute("loginClient");
-		System.out.println(client.getClientMail()+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`");
+	
 		String clientMail = client.getClientMail();
 		int clientNo = client.getClientNo();
 		Orders orders = new Orders();
