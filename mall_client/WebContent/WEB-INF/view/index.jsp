@@ -13,14 +13,20 @@
 	<!-- 메뉴2 -->
 	<h1>index</h1>
 	<%
-		String searchWord = (String)(request.getAttribute("searchWord"));
+		String searchWord = null;
+		if(request.getAttribute("searchWord") != null) {
+			searchWord = (String)(request.getAttribute("searchWord"));
+		}
 		List<Ebook> ebookList = (List<Ebook>)(request.getAttribute("ebookList")); //ebook리스트
 		int pageRange = (Integer)(request.getAttribute("pageRange"));
 		int lastPage = (Integer)(request.getAttribute("lastPage"));
 		int rowPerPage = (Integer)(request.getAttribute("rowPerPage"));
 		int currentPage = (Integer)(request.getAttribute("currentPage"));
 		List<Category> categoryList = (List<Category>)(request.getAttribute("categoryList")); //카테고리 이름들 리스트(가중치도 들어있음)
-		String categoryName = (String)(request.getAttribute("categoryName"));
+		String categoryName = null;
+		if(request.getAttribute("categoryName") != null) {
+			categoryName =(String)(request.getAttribute("categoryName"));
+		}
 	%>
 		<ul>
 			<li><a href = "<%=request.getContextPath()%>/IndexController">전체보기</a></li>
