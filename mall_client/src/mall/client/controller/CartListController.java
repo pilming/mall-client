@@ -25,6 +25,7 @@ public class CartListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
+		
 		//세션으로 받은 아이디 디버깅
 		System.out.println(((Client)(session.getAttribute("loginClient"))).getClientMail() + "<------CartListController에서 loginClient");
 		//dao호출
