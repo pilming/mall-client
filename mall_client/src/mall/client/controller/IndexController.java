@@ -2,6 +2,7 @@ package mall.client.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,17 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import mall.client.model.CategoryDao;
 import mall.client.model.EbookDao;
-import mall.client.vo.Category;
-import mall.client.vo.Ebook;
+import mall.client.model.OrdersDao;
+import mall.client.vo.*;
 
 // C -> M -> V
 @WebServlet("/IndexController")
 public class IndexController extends HttpServlet {
 	private EbookDao ebookDao;
 	private CategoryDao categoryDao;
+	private OrdersDao ordersDao;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.ebookDao = new EbookDao();
 		this.categoryDao = new CategoryDao();
+		this.ordersDao = new OrdersDao();
 		
 		// request 분석
 		int currentPage = 1;
@@ -63,6 +67,10 @@ public class IndexController extends HttpServlet {
 		
 		//모델호출 카테고리 이름들은 리스트로 받아온다. 리스트안의 하나의 카테고리 객체에 카테고리이름과 가중치가 담겨있음. 
 		List<Category> categoryList = this.categoryDao.selectCategoryList();
+		
+		this.ordersDao = new OrdersDao();
+		List<Map<String, Object>> bestOdersList = this.ordersDao.selectBestOrders();
+		
 		// model 호출 category가 null이면 모든 책을 가져오고 카테고리가 null이 아니면 특정 카테고리만 가져온다. 검색에 유무에따라 나눔.
 		List<Ebook> ebookList = null;
 		//검색어가 없을때
@@ -73,6 +81,7 @@ public class IndexController extends HttpServlet {
 		}
 		
 		// request객체에 리스트 저장 후 View forward
+		request.setAttribute("bestOdersList", bestOdersList);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);

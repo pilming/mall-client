@@ -13,6 +13,7 @@
 	<!-- 메뉴2 -->
 	<h1>index</h1>
 	<%
+		//controller에서 값 받아오기
 		String searchWord = null;
 		if(request.getAttribute("searchWord") != null) {
 			searchWord = (String)(request.getAttribute("searchWord"));
@@ -27,6 +28,8 @@
 		if(request.getAttribute("categoryName") != null) {
 			categoryName =(String)(request.getAttribute("categoryName"));
 		}
+		List<Map<String, Object>> bestOdersList = (List<Map<String, Object>>)(request.getAttribute("bestOdersList"));
+		
 	%>
 		<ul>
 			<li><a href = "<%=request.getContextPath()%>/IndexController">전체보기</a></li>
@@ -38,6 +41,32 @@
 		}
 	%>
 		</ul>
+	<!-- best ebook 상품 5개 출력 -->
+	<h3>BEST Ebook</h3>
+	<table border="1">
+		<tr>
+			<%
+				for(Map map : bestOdersList) {
+			%>
+					<td>
+						<div><img src="<%=request.getContextPath()%>/img/default.jpg"></div>
+						
+						<div>
+							<a href="<%=request.getContextPath()%>/EbookOneController?ebookNo=<%=map.get("ebookNo")%>">
+								<%=map.get("ebookTitle")%>
+							</a>
+						</div>
+						<div>￦<%=map.get("ebookPrice")%></div>
+					</td>
+			<%				
+				}
+			%>
+		</tr>
+	
+	</table>
+	
+	<!-- ebook 상품 출력 -->
+	<h3>Ebook List</h3>
 	<table border="1">
 		<tr>
 		<%

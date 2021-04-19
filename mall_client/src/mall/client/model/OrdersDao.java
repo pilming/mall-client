@@ -10,7 +10,36 @@ import mall.client.vo.Orders;
 
 public class OrdersDao {
 	private DBUtil dbUtil;
-	
+	public List<Map<String, Object>> selectBestOrders() {
+		List<Map<String,Object>> returnList = new ArrayList<>();
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			//db연결
+			conn = this.dbUtil.getConnection();
+			//sql
+			String sql = "SELECT t.ebook_no ebookNo, t.cnt cnt, e.ebook_title ebookTitle, e.ebook_price ebookPrice FROM (SELECT ebook_no, COUNT(ebook_no) cnt FROM orders WHERE orders_state = '주문완료' GROUP BY ebook_no HAVING COUNT(ebook_no) > 1 LIMIT 5) t INNER JOIN ebook e ON t.ebook_no = e.ebook_no ORDER BY t.cnt DESC";
+			stmt = conn.prepareStatement(sql);
+			System.out.println(stmt + "<-- OrdersDao.selectBestOrders 에서 stmt");
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("ebookNo", rs.getInt("ebookNo"));
+				map.put("cnt", rs.getInt("cnt"));
+				map.put("ebookTitle", rs.getString("ebookTitle"));
+				map.put("ebookPrice", rs.getInt("ebookPrice"));
+				returnList.add(map);
+			}
+			
+		} catch(Exception e) {
+			
+		} finally {
+			this.dbUtil.close(conn, stmt, null);
+		}
+		return returnList;
+	}
 	public List<Map<String,Object>> selectOrdersListByClient(int clientNo) {
 		List<Map<String,Object>> returnList = new ArrayList<>();
 		this.dbUtil = new DBUtil();

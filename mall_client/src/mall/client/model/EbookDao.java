@@ -3,14 +3,49 @@ package mall.client.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import mall.client.commons.DBUtil;
 import mall.client.vo.Ebook;
 
 public class EbookDao {
 	private DBUtil dbutil;
+	
+	public List<Map<String, Object>> selectEbookListByMonth(int year, int month) {
+		List<Map<String, Object>> returnList = new ArrayList<>();
+		this.dbutil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		//선택된 카테고리가 없다면 모든 책 셀렉트
+		try {
+			conn = this.dbutil.getConnection();
+			//sql
+			String sql = "SELECT ebook_no ebookNo, ebook_title ebookTitle, day(ebook_date) d FROM ebook WHERE YEAR(ebook_date) = ? AND MONTH(ebook_date) = ? ORDER BY day(ebook_date) ASC";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, year);
+			stmt.setInt(2, month);
+			//디버깅
+			System.out.println(stmt + "<---EbookDao 에서 selectEbookListByDay의 stmt");
+			
+			rs = stmt.executeQuery();
+			//반복문 돌면서 리스트에 ebook객체 정보담기
+			while(rs.next()) {
+				Map<String, Object> map= new HashMap<>();
+				map.put("ebookNo",rs.getInt("ebookNo"));
+				map.put("ebookTitle",rs.getString("ebookTitle"));
+				map.put("d",rs.getInt("d"));
+				returnList.add(map);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.dbutil.close(conn, stmt, rs);
+		}
+		return returnList;
+	}
+	
 	//전체 책 가져오기 (검색어 여부, 카테고리정렬 여부, 검색기능을 이용했을때는 카테고리 정렬을 할수없음.)
 	public int totalCount(String searchWord, String categoryName ) {
 		this.dbutil = new DBUtil();
