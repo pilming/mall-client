@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>회원가입</h1>
-	<form method = "post" action = "<%=request.getContextPath()%>/InsertClientController">
+	<form method = "post" action = "${pageContext.request.contextPath}/InsertClientController">
 		<table>
 			<thead>
 				<tr>

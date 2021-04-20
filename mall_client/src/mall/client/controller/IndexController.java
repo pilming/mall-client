@@ -69,8 +69,8 @@ public class IndexController extends HttpServlet {
 		List<Category> categoryList = this.categoryDao.selectCategoryList();
 		
 		this.ordersDao = new OrdersDao();
-		List<Map<String, Object>> bestOdersList = this.ordersDao.selectBestOrders();
-		
+		List<Map<String, Object>> bestOrdersList = this.ordersDao.selectBestOrders();
+		System.out.println(bestOrdersList +"<---IndexController에서 bestOrdersList");
 		// model 호출 category가 null이면 모든 책을 가져오고 카테고리가 null이 아니면 특정 카테고리만 가져온다. 검색에 유무에따라 나눔.
 		List<Ebook> ebookList = null;
 		//검색어가 없을때
@@ -81,7 +81,7 @@ public class IndexController extends HttpServlet {
 		}
 		
 		// request객체에 리스트 저장 후 View forward
-		request.setAttribute("bestOdersList", bestOdersList);
+		request.setAttribute("bestOrdersList", bestOrdersList);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);

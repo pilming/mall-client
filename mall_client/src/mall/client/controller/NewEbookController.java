@@ -56,6 +56,24 @@ public class NewEbookController extends HttpServlet {
 		
 		List<Map<String, Object>> ebookListByMonth = this.ebookDao.selectEbookListByMonth(currentYear, currentMonth);
 		
+		int preYear = currentYear;
+		int preMonth = currentMonth - 1;
+		if(preMonth == 0) {
+			preMonth = 12;
+			preYear -= 1;
+		}
+		
+		int nextYear = currentYear;
+		int nextMonth = currentMonth + 1;
+		if(preMonth == 13) {
+			preMonth = 1;
+			nextYear += 1;
+		}
+		
+		request.setAttribute("preYear", preYear);
+		request.setAttribute("preMonth", preMonth);
+		request.setAttribute("nextYear", nextYear);
+		request.setAttribute("nextMonth", nextMonth);
 		request.setAttribute("ebookListByMonth", ebookListByMonth);
 		request.setAttribute("firstDayOfWeek", firstDayOfWeek);
 		request.setAttribute("endDay", endDay);
