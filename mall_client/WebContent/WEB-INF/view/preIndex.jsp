@@ -11,12 +11,18 @@
 	<!-- 메뉴1 -->
 	<!-- 메뉴2 -->
 	<h1>index</h1>
-		<ul>
-			<li><a href = "${pageContext.request.contextPath}/IndexController">전체보기</a></li>
-			<c:forEach var = "category" items = "${categoryList}" >
-				<li><a href = "${pageContext.request.contextPath}/IndexController?categoryName=${category.categoryName}">${category.categoryName}</a></li>	
-			</c:forEach>
-		</ul>
+	<ul>
+		<li><a href = "${pageContext.request.contextPath}/IndexController">전체보기</a></li>
+		<c:forEach var = "category" items = "${categoryList}" >
+			<li><a href = "${pageContext.request.contextPath}/IndexController?categoryName=${category.categoryName}">${category.categoryName}</a></li>	
+		</c:forEach>
+	</ul>
+	
+	<div>
+		<div>오늘 접속자 수 : ${total }</div>
+		<div>총 접속자 수 : ${statsCount }</div>
+	</div>
+	
 	<!-- best ebook 상품 5개 출력 -->
 	<h3>BEST Ebook</h3>
 	<table border="1">
@@ -53,7 +59,7 @@
 					</div>
 					<div>￦${ebook.ebookPrice}</div>
 				</td>
-				<c:if test = "${count % 5 == 0}">
+				<c:if test = "${count % 4 == 0}">
 					</tr><tr>
 				</c:if>
 			</c:forEach>

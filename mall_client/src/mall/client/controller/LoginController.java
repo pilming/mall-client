@@ -14,7 +14,19 @@ import mall.client.vo.Client;
 
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
+	
 	private ClientDao clientDao;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		//만약 로그인 한 상태라면 다시 인덱스로 보냄
+		if(session.getAttribute("loginClient") != null) {
+			response.sendRedirect(request.getContextPath()+"/IndexController");
+			return;
+		}
+		
+		//로그인하지 않은 상태라면 회원가입 view로 보낸다.
+		request.getRequestDispatcher("/WEB-INF/view/client/loginClient.jsp").forward(request, response);
+	}
 	@Override //원래는 이게 생략 돼 있음
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//로그인 유효성 검사

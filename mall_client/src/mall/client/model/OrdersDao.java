@@ -20,7 +20,7 @@ public class OrdersDao {
 			//db연결
 			conn = this.dbUtil.getConnection();
 			//sql
-			String sql = "SELECT t.ebook_no ebookNo, t.cnt cnt, e.ebook_title ebookTitle, e.ebook_price ebookPrice FROM (SELECT ebook_no, COUNT(ebook_no) cnt FROM orders WHERE orders_state = '주문완료' GROUP BY ebook_no HAVING COUNT(ebook_no) > 1 LIMIT 5) t INNER JOIN ebook e ON t.ebook_no = e.ebook_no ORDER BY t.cnt DESC";
+			String sql = "SELECT t.ebook_no ebookNo, t.cnt cnt, e.ebook_title ebookTitle, e.ebook_price ebookPrice FROM (SELECT ebook_no, COUNT(ebook_no) cnt FROM orders WHERE orders_state = '주문완료' GROUP BY ebook_no HAVING COUNT(ebook_no) > 1 LIMIT 4) t INNER JOIN ebook e ON t.ebook_no = e.ebook_no ORDER BY t.cnt DESC";
 			stmt = conn.prepareStatement(sql);
 			System.out.println(stmt + "<-- OrdersDao.selectBestOrders 에서 stmt");
 			rs = stmt.executeQuery();

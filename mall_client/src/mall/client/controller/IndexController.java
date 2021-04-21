@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import mall.client.model.CategoryDao;
 import mall.client.model.EbookDao;
 import mall.client.model.OrdersDao;
+import mall.client.model.StatsDao;
 import mall.client.vo.*;
 
 // C -> M -> V
@@ -22,11 +23,14 @@ public class IndexController extends HttpServlet {
 	private EbookDao ebookDao;
 	private CategoryDao categoryDao;
 	private OrdersDao ordersDao;
-	
+	private StatsDao statsDao;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.ebookDao = new EbookDao();
 		this.categoryDao = new CategoryDao();
 		this.ordersDao = new OrdersDao();
+		this.statsDao = new StatsDao();
+		
+		System.out.println("/IndexController 시작....");
 		
 		// request 분석
 		int currentPage = 1;
@@ -47,7 +51,7 @@ public class IndexController extends HttpServlet {
 		}
 		
 		//한페이지에 보여줄 책의 수 (추후에 선택가능하게 만들기)
-		int rowPerPage = 15;
+		int rowPerPage = 12;
 		
 		//시작기준
 		int beginRow = (currentPage-1)*rowPerPage;
@@ -80,7 +84,18 @@ public class IndexController extends HttpServlet {
 			ebookList = this.ebookDao.selectEbookListByPageAndSearchword(beginRow, rowPerPage, searchWord);
 		}
 		
+		//접속자 관련 데이터
+		long total = this.statsDao.selectStatsTotal();
+		Stats stats = this.statsDao.selectStatsByToday();
+		long statsCount = 0;
+		if (stats != null) {
+			statsCount = stats.getStatsCount();
+		}
+		
+		
 		// request객체에 리스트 저장 후 View forward
+		request.setAttribute("total", total);
+		request.setAttribute("statsCount", statsCount);
 		request.setAttribute("bestOrdersList", bestOrdersList);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("currentPage", currentPage);

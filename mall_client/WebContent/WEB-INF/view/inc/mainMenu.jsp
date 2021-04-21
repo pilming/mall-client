@@ -2,37 +2,71 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 
 <c:if test="${loginClient == null }">
-	<div>
-		<!-- 로그아웃일때 -->
-		<form action = "${pageContext.request.contextPath}/LoginController" method = "post">
-			ID : <input type = "text" name = "clientMail">
-			PW : <input type = "password" name = "clientPw">
-			<button type = "submit">로그인</button>
-		</form>
-		<ul>
-			<li><a href="${pageContext.request.contextPath}/IndexController">홈으로</a></li>
-			<!-- InsertClientController -> /view/insertClient.jsp -->
-			<li><a href = "${pageContext.request.contextPath}/InsertClientController">회원가입</a></li>
-			<li><a href = "${pageContext.request.contextPath}/EbookCalendarController">ebook달력</a></li>
-		</ul>
-	</div>
+	<div class="header-top-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class = "logo">
+                        <a href="${pageContext.request.contextPath}/IndexController"><img src="${pageContext.request.contextPath}/img/logo.png" style="width: 200px; height: 60px; padding-top: 8px;"></a>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <!-- 로그인 메뉴 -->
+                    <div class="header-top-menu">
+                    	<ul class = "nav navbar-nav notika-top-nav">
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/LoginController">Login</a>
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/InsertClientController">SignUp</a>
+                    		</li>
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </c:if>
 
 <c:if test="${loginClient != null }"> 
 	<!-- 로그인일때 -->
-		<div>
-			<div>
-				${loginClient.clientMail}님 반갑습니다.
-			</div>
-			<ul>
-				<li><a href="${pageContext.request.contextPath}/IndexController">홈으로</a></li>
-				<li><a href = "${pageContext.request.contextPath}/CartListController">장바구니</a></li>
-				<!-- OrdersListController - OrdersDao,selectOrdersListByClient() - OrdersList.jsp -->
-				<li><a href = "${pageContext.request.contextPath}/OrdersListController">주문리스트</a></li>
-				<li><a href = "${pageContext.request.contextPath}/EbookCalendarController">ebook달력</a></li>
-				<!-- ClientOneController -> ClientDao.selectclientOne() -> /view/client/clientOne.jsp-->
-				<li><a href = "${pageContext.request.contextPath}/ClientOneController">회원정보</a></li>
-				<li><a href = "${pageContext.request.contextPath}/LogoutController">로그아웃</a></li>
-			</ul>
-		</div>
+		<div class="header-top-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class = "logo">
+                        <a href="${pageContext.request.contextPath}/IndexController"><img src="${pageContext.request.contextPath}/img/logo.png" style="width: 200px; height: 60px; padding-top: 8px;"></a>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <!-- 로그인 메뉴 -->
+                    <div class="header-top-menu">
+                    	<ul class = "nav navbar-nav notika-top-nav">
+                    		<li class = "nav-item">
+                    			<div style="margin: 20px 0px 20px 30px;">
+                    				${loginClient.clientMail}님 반갑습니다.
+                    			</div>	
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/LogoutController">Logout</a>
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/ClientOneController">MyPage</a>
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/OrdersListController">Order</a>
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/CartListController">Cart</a>
+                    		</li>
+                    		<li class = "nav-item">
+                    			<a class = "nav-link" href = "${pageContext.request.contextPath}/EbookCalendarController">ebook달력</a>
+                    		</li>
+                    		
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </c:if>

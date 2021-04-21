@@ -265,7 +265,7 @@
 	.menu-switcher-pro {
 		display:none;
 	}
-	.logo-area {
+	.logo {
 		text-align: center;
 	}
 	.nav.navbar-nav.notika-top-nav {
@@ -336,7 +336,7 @@
 	.left-sidebar-pro, .menu-switcher-pro{
 		display:none;
 	}
-	.logo-area{
+	.logo{
 		text-align:center;
 	}
 	.nav.navbar-nav.notika-top-nav {
