@@ -98,7 +98,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                        <li><a href="#Home"><i class="notika-icon notika-checked"></i> ALL</a>
+                        <li><a href="${pageContext.request.contextPath}/IndexController"><i class="notika-icon notika-checked"></i> ALL</a>
                         </li>
                         <c:forEach var = "category" items = "${categoryList}" >
 							<li>
@@ -117,7 +117,8 @@
     <!-- Start Status area -->
     <div>
         <div class="container">
-        	<h3>BEST E-BOOK</h3>
+        	<h3 style="text-align: center;">BEST E-BOOK</h3>
+        	<br>
             <div class="row">
             	<c:forEach var = "map" items = "${bestOrdersList}">
 					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="text-align: center;">
@@ -133,26 +134,124 @@
             </div>
         </div>
     </div>
+    <hr>
     <!-- End Status area-->
     <!-- Start Sale Statistic area-->
     <div>
         <div class="container">
-        	<h3>BEST E-BOOK</h3>
+        	<h3 style="text-align: center;">EBOOK LIST</h3>
+        	<br>
             <div class="row">
-            	<c:forEach var = "map" items = "${bestOrdersList}">
+            	<c:set var = "count" value = "0"/>
+            	<c:forEach var = "ebook" items = "${ebookList}">
+            		<c:set var = "count" value = "${count + 1}"/>
 					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="text-align: center;">
 	                    <div><img src="${pageContext.request.contextPath}/img/default.jpg"></div>
 	                    <div>
-							<a href="${pageContext.request.contextPath}/EbookOneController?ebookNo=${map.ebookNo}">
-								<span>${map.ebookTitle}</span>
+							<a href="${pageContext.request.contextPath}/EbookOneController?ebookNo=${ebook.ebookNo}">
+								<span>${ebook.ebookTitle}</span>
 							</a>
 						</div>
-	                    <div>￦<span>${map.ebookPrice}</span></div>
+	                    <div>￦<span>${ebook.ebookPrice}</span></div>
+	                    <c:if test = "${count % 4 == 0}">
+	                    	</div><div class="row">
+	                    </c:if>
                 	</div>
+                	
 				</c:forEach>
             </div>
         </div>
     </div>
+	<br>
+	<div class = "searchBox">
+		<form action = "${pageContext.request.contextPath}/IndexController" method = "get">
+			<div class="form-group todo-flex" style="width: 300px; margin: 0 auto;">
+                <div class="nk-int-st">
+                    <input type="text" id="todo-input-text" name="searchWord" class="form-control" placeholder="책 제목을 입력해주세요">
+                </div>
+                <div class="todo-send">
+                    <button class="btn-primary btn-md btn-block btn notika-add-todo" type="submit" id="todo-btn-submit">검색</button>
+                </div>
+            </div>
+		</form>
+	</div>
+	<br>
+	<div class = "paging" style="text-align: center;">
+		<ul class="pagination">
+		<!-- 페이징 만드는 반복문 -->
+		<c:forEach var = "i" begin="1" end="10" step="1">
+			<!-- 마지막 페이지 체크 (break문이 없기때문에 이런식으로 함) -->
+			<c:if test="${(pageRange * 10)+ i < (lastPage + 1)}">
+				<!-- 특정 카테고리가 있을때 (카테고리 정렬과 검색어 기능을 같이 사용할수없음.) -->
+				<c:if test="${categoryName != null}">
+					<!-- 이전버튼 생성 -->
+					<c:if test="${i == 1}">
+						<!-- 1페이지이면 이전버튼 비 활성화 -->
+						<c:if test="${currentPage == 1}">
+							<li class="page-item disabled"><a class="page-link">이전</a></li>
+						</c:if>
+						<!-- 1페이지가 아니라면 이전 페이지로 이동 -->
+						<c:if test="${currentPage != 1}">
+							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${currentPage -1}">이전</a></li>
+						</c:if>	
+					</c:if>
+					<a href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+					
+					<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
+					<c:if test="${i == 10}">
+						<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${currentPage + 1}">다음</a></li>
+					</c:if>		
+				</c:if>
+				<!-- 카테고리 정렬이 없을때 -->
+				<c:if test="${categoryName == null}">
+					<!-- 검색어가 있을경우 -->
+					<c:if test="${searchWord != null}">
+						<c:if test="${i == 1}">
+							<!-- 1페이지이면 이전버튼 비 활성화 -->
+							<c:if test="${currentPage == 1}">
+								<li class="page-item disabled"><a class="page-link">이전</a></li>
+							</c:if>
+							<!-- 1페이지가 아니라면 이전 페이지로 이동 -->
+							<c:if test="${currentPage != 1}">
+								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${currentPage -1}">이전</a></li>
+							</c:if>	
+						</c:if>
+						<!-- 페이징 숫자표현 -->
+						<a href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+						
+						<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
+						<c:if test="${i == 10}">
+							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${currentPage +1}">다음</a></li>
+						</c:if>	
+						
+					</c:if>
+								
+					<!-- 검색어가 없을 경우 -->
+					<c:if test="${searchWord == null}">
+						<c:if test="${i == 1}">
+							<!-- 1페이지이면 이전버튼 비 활성화 -->
+							<c:if test="${currentPage == 1}">
+								<li class="page-item disabled"><a class="page-link">이전</a></li>
+							</c:if>
+							<!-- 1페이지가 아니라면 이전 페이지로 이동 -->
+							<c:if test="${currentPage != 1}">
+								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?currentPage=${currentPage -1}">이전</a></li>
+							</c:if>	
+						</c:if>
+						<!-- 페이징 숫자표현 -->
+						<a href="${pageContext.request.contextPath}/IndexController?currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+						
+						<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
+						<c:if test="${i == 10}">
+							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?currentPage=${currentPage +1}">다음</a></li>
+						</c:if>	
+					</c:if>
+				</c:if>
+			</c:if>
+			<!-- 마지막페이지 검사 끝 -->
+		</c:forEach>
+		</ul>
+	</div>
     <!-- End Realtime sts area-->
     <!-- Start Footer area-->
     <div class="footer-copyright-area">

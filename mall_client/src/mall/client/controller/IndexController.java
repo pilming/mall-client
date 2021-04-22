@@ -85,17 +85,18 @@ public class IndexController extends HttpServlet {
 		}
 		
 		//접속자 관련 데이터
+		/*
 		long total = this.statsDao.selectStatsTotal();
 		Stats stats = this.statsDao.selectStatsByToday();
 		long statsCount = 0;
 		if (stats != null) {
 			statsCount = stats.getStatsCount();
 		}
-		
+		*/
 		
 		// request객체에 리스트 저장 후 View forward
-		request.setAttribute("total", total);
-		request.setAttribute("statsCount", statsCount);
+		//request.setAttribute("total", total);
+		//request.setAttribute("statsCount", statsCount);
 		request.setAttribute("bestOrdersList", bestOrdersList);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("currentPage", currentPage);
