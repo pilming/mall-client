@@ -139,14 +139,30 @@
     <!-- Start Sale Statistic area-->
     <div>
         <div class="container">
-        	<h3 style="text-align: center;">EBOOK LIST</h3>
+        	<h3 style="text-align: center;">
+        		<c:if test="${searchWord == null}">
+        			<c:if test="${categoryName == null}">
+	        			EBOOK LIST (ALL)
+	        		</c:if>
+	        		<c:if test="${categoryName != null}">
+	        			EBOOK LIST (${categoryName.toUpperCase()})
+	        		</c:if>
+        		</c:if>
+        		<c:if test="${searchWord != null}">
+        			EBOOK LIST (SEARCH RESULT : ${searchWord})
+        		</c:if>
+        	</h3>
         	<br>
             <div class="row">
             	<c:set var = "count" value = "0"/>
             	<c:forEach var = "ebook" items = "${ebookList}">
             		<c:set var = "count" value = "${count + 1}"/>
 					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="text-align: center;">
-	                    <div><img src="${pageContext.request.contextPath}/img/default.jpg"></div>
+	                    <div>
+	                    	<a href="${pageContext.request.contextPath}/EbookOneController?ebookNo=${ebook.ebookNo}">
+	                    		<img src="${pageContext.request.contextPath}/img/default.jpg">
+	                    	</a>
+	                    </div>
 	                    <div>
 							<a href="${pageContext.request.contextPath}/EbookOneController?ebookNo=${ebook.ebookNo}">
 								<span>${ebook.ebookTitle}</span>
@@ -195,7 +211,14 @@
 							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${currentPage -1}">이전</a></li>
 						</c:if>	
 					</c:if>
-					<a href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+					<!-- 페이징 숫자표현 -->
+					<c:if test="${currentPage == (pageRange*10)+i}">
+						<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+					</c:if>
+					<c:if test="${currentPage != (pageRange*10)+i}">
+						<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?categoryName=${categoryName }&currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+					</c:if>
+					
 					
 					<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
 					<c:if test="${i == 10}">
@@ -217,7 +240,13 @@
 							</c:if>	
 						</c:if>
 						<!-- 페이징 숫자표현 -->
-						<a href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+						<c:if test="${currentPage == (pageRange*10)+i}">
+							<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+						</c:if>
+						<c:if test="${currentPage != (pageRange*10)+i}">
+							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?searchWord=${searchWord }&currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+						</c:if>
+						
 						
 						<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
 						<c:if test="${i == 10}">
@@ -239,7 +268,12 @@
 							</c:if>	
 						</c:if>
 						<!-- 페이징 숫자표현 -->
-						<a href="${pageContext.request.contextPath}/IndexController?currentPage=${(pageRange*10)+i}"><button>${(pageRange*10)+i}</button></a>
+						<c:if test="${currentPage == (pageRange*10)+i}">
+							<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+						</c:if>
+						<c:if test="${currentPage != (pageRange*10)+i}">
+							<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/IndexController?currentPage=${(pageRange*10)+i}">${(pageRange*10)+i}</a></li>
+						</c:if>				
 						
 						<!-- 마지막 페이지이면 여기까지 코드 진행 되지않음. -->
 						<c:if test="${i == 10}">
